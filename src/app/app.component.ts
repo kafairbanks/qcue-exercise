@@ -8,28 +8,19 @@ declare const require: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  maxX = 1000;
-  minX = 0;
-  maxY = 500;
-  minY = 0;
-  nodes = [{
-    name: 'Node 1',
-    x: 300,
-    y: 300
-  }, {
-    name: 'Node 2',
-    x: 800,
-    y: 300
-  }, {
-    name: 'Node 3',
-    x: 550,
-    y: 100
-  }, {
-    name: 'Node 4',
-    x: 550,
-    y: 500
-  }];
+  nodeNameFormat = /^[a-zA-Z0-9]*$/;
+  validNodeName = true;
+
+  maxX = 400;
+  maxY = 400;
+  sameName = false;
+  sameEdge = false;
+  isLoading = false;
+
+  nodes = [];
+  edges = [];
   updateOptions: any;
+
   options = {
     title: {
       text: 'QCue Take Home Exercise'
@@ -41,15 +32,15 @@ export class AppComponent implements OnInit {
       {
         type: 'graph',
         layout: 'none',
-        symbolSize: 60,
+        symbolSize: 20,
         roam: true,
         label: {
           normal: {
             show: true
           }
         },
-        edgeSymbol: ['circle', 'arrow'],
-        edgeSymbolSize: [4, 10],
+        edgeSymbol: ['circle', 'circle'],
+        edgeSymbolSize: [4, 4],
         edgeLabel: {
           normal: {
             textStyle: {
@@ -57,62 +48,8 @@ export class AppComponent implements OnInit {
             }
           }
         },
-        data: [{
-          name: 'Node 1',
-          x: 300,
-          y: 300
-        }, {
-          name: 'Node 2',
-          x: 800,
-          y: 300
-        }, {
-          name: 'Node 3',
-          x: 550,
-          y: 100
-        }, {
-          name: 'Node 4',
-          x: 550,
-          y: 500
-        }],
-        links: [{
-          source: 0,
-          target: 1,
-          symbolSize: [5, 20],
-          label: {
-            normal: {
-              show: true
-            }
-          },
-          lineStyle: {
-            normal: {
-              width: 5,
-              curveness: 0.2
-            }
-          }
-        }, {
-          source: 'Node 2',
-          target: 'Node 1',
-          label: {
-            normal: {
-              show: true
-            }
-          },
-          lineStyle: {
-            normal: { curveness: 0.2 }
-          }
-        }, {
-          source: 'Node 1',
-          target: 'Node 3'
-        }, {
-          source: 'Node 2',
-          target: 'Node 3'
-        }, {
-          source: 'Node 2',
-          target: 'Node 4'
-        }, {
-          source: 'Node 1',
-          target: 'Node 4'
-        }],
+        data: [],
+        links: [],
         lineStyle: {
           normal: {
             opacity: 0.9,
@@ -129,13 +66,29 @@ export class AppComponent implements OnInit {
   ngOnInit() {
   }
 
-  add(n: string) {
+  addNode(n: string) {
+    this.sameName = false;
+    this.sameEdge = false;
+    this.isLoading = true;
+
     n = n.trim();
-    if (!n) { return; }
+    if (!n) { this.isLoading = false; return; }
+
+    this.validNodeName = this.nodeNameFormat.test(n);
+    if (!this.validNodeName) { this.isLoading = false; return; }
+
+    for (let i = 0; i < this.nodes.length; i++) {
+      if (n === this.nodes[i].name) {
+        this.sameName = true;
+        this.isLoading = false;
+        return;
+      }
+    }
+
     this.nodes.push({
       name: n,
-      x: Math.floor(Math.random() * (this.maxX - this.minX + 1)) + this.minX,
-      y: Math.floor(Math.random() * (this.maxY - this.minY + 1)) + this.minY
+      x: Math.floor(Math.random() * (this.maxX + 1)),
+      y: Math.floor(Math.random() * (this.maxY + 1))
     });
 
     this.updateOptions = {
@@ -143,10 +96,40 @@ export class AppComponent implements OnInit {
         data: this.nodes
       }]
     };
-    /* this.options.series[0].data.push({
-      name: n,
-      x: 300,
-      y: 500
-    }); */
+    this.isLoading = false;
+  }
+
+  addEdge(n1: string, n2: string) {
+    this.sameName = false;
+    this.sameEdge = false;
+    this.isLoading = true;
+
+    n1 = n1.trim();
+    n2 = n2.trim();
+    if (!n1 || !n2) { this.isLoading = false; return; }
+
+    for (let i = 0; i < this.edges.length; i++) {
+      if (this.edges[i].source === n1 && this.edges[i].target === n2) {
+        this.sameEdge = true;
+        this.isLoading = false;
+        return;
+      }
+    }
+
+    this.edges.push({
+      source: n1,
+      target: n2
+    });
+    this.edges.push({
+      source: n2,
+      target: n1
+    })
+
+    this.updateOptions = {
+      series: [{
+        links: this.edges
+      }]
+    };
+    this.isLoading = false;
   }
 }

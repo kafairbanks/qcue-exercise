@@ -1,11 +1,38 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-<div echarts [options]="options" class="demo-chart" [merge]="updateOptions"></div>
+<div echarts [options]="options" class="demo-chart" [merge]="updateOptions" [loading]="isLoading"></div>
 
 <div>
+  <h4>Create New Node:</h4>
   <label> New Node Name:
     <input #nodeName/>
   </label>
-  <button (click)="add(nodeName.value); nodeName.value=''">Add</button>
+  <button (click)="addNode(nodeName.value); nodeName.value=''">Add Node</button>
+</div>
+
+<div>
+  <h4>Create New Edge:</h4>
+  <label> Node 1 Name:
+    <input #node1/>
+  </label>
+</div>
+<div>
+  <label> Node 2 Name:
+    <input #node2/>
+  </label>
+    <button (click)="addEdge(node1.value, node2.value); node1.value=''; node2.value=''">Add Edge</button>
+</div>
+
+<div *ngIf="!validNodeName" align="center">
+  <h2>That node name is not valid.</h2>
+  Please enter an alphanumeric string with no spaces.
+</div>
+
+<div *ngIf="sameName" align="center">
+  <h2>That node name is already in use.</h2>
+</div>
+
+<div *ngIf="sameEdge" align="center">
+  <h2>That edge already exists.</h2>
 </div>
 
