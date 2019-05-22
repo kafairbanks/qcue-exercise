@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 
-declare const require: any;
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,6 +13,7 @@ export class AppComponent implements OnInit {
   maxY = 400;
   sameName = false;
   sameEdge = false;
+  edgesExist = true;
   isLoading = false;
 
   nodes = [];
@@ -22,9 +21,6 @@ export class AppComponent implements OnInit {
   updateOptions: any;
 
   options = {
-    title: {
-      text: 'QCue Take Home Exercise'
-    },
     tooltip: {},
     animationDurationUpdate: 1500,
     animationEasingUpdate: 'quinticInOut',
@@ -69,6 +65,7 @@ export class AppComponent implements OnInit {
   addNode(n: string) {
     this.sameName = false;
     this.sameEdge = false;
+    this.edgesExist = true;
     this.isLoading = true;
 
     n = n.trim();
@@ -102,11 +99,32 @@ export class AppComponent implements OnInit {
   addEdge(n1: string, n2: string) {
     this.sameName = false;
     this.sameEdge = false;
+    this.edgesExist = true;
     this.isLoading = true;
+    this.validNodeName = true;
 
     n1 = n1.trim();
     n2 = n2.trim();
     if (!n1 || !n2) { this.isLoading = false; return; }
+
+    let n1present = false;
+    let n2present = false;
+
+    for (let j = 0; j < this.nodes.length; j++) {
+      if (this.nodes[j].name === n1) {
+        n1present = true;
+      }
+
+      if (this.nodes[j].name === n2) {
+        n2present = true;
+      }
+    }
+
+    if (!n1present || !n2present) {
+      this.edgesExist = false;
+      this.isLoading = false;
+      return;
+    }
 
     for (let i = 0; i < this.edges.length; i++) {
       if (this.edges[i].source === n1 && this.edges[i].target === n2) {
