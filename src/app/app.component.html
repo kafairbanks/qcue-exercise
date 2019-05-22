@@ -70,3 +70,9 @@
   </ngb-alert>
 </div>
 
+<div *ngIf="selfLoop" align="center" style="padding: 5px;">
+  <ngb-alert [dismissible]="false" [type]="'danger'">
+    <strong>You must choose two unique nodes.</strong>
+  </ngb-alert>
+</div>
+

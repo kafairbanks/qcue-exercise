@@ -8,7 +8,8 @@ Nodes are displayed using randomly generated X and Y coordinates.
 3) The application does not allow the user to create a node with name that is already
 used by another node of the graph. If the user tries to do so, an error will be shown.
 4) The application allows the user to create graph undirected edges that connect a pair of
-nodes. These nodes must already previously exist in the graph; otherwise, an error will be shown.
+nodes. These nodes must already previously exist in the graph, and the user must choose two unique nodes;
+ otherwise, an error will be shown.
 5) The application does not allow the user to connect the same pair of nodes more than
 once. If the user tries to do so, an error will be shown.
 6) The application presents the graph in a visual form using a third-party library called

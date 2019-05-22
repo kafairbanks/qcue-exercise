@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   maxY = 400;
   sameName = false;
   sameEdge = false;
+  selfLoop = false;
   edgesExist = true;
   isLoading = false;
 
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit {
     this.sameEdge = false;
     this.edgesExist = true;
     this.isLoading = true;
+    this.selfLoop = false;
 
     n = n.trim();
     if (!n) { this.isLoading = false; return; }
@@ -102,6 +104,7 @@ export class AppComponent implements OnInit {
     this.edgesExist = true;
     this.isLoading = true;
     this.validNodeName = true;
+    this.selfLoop = false;
 
     n1 = n1.trim();
     n2 = n2.trim();
@@ -134,14 +137,18 @@ export class AppComponent implements OnInit {
       }
     }
 
-    this.edges.push({
-      source: n1,
-      target: n2
-    });
-    this.edges.push({
-      source: n2,
-      target: n1
-    });
+    if (n1 === n2) {
+      this.selfLoop = true;
+    } else {
+      this.edges.push({
+        source: n1,
+        target: n2
+      });
+      this.edges.push({
+        source: n2,
+        target: n1
+      });
+    }
 
     this.updateOptions = {
       series: [{
