@@ -1,6 +1,6 @@
 # Qcue Take Home Exercise
 
-1) The application was developed using [Angular CLI](https://github.com/angular/angular-cli) version 6.2.2.
+1) The application was developed using [Angular CLI](https://angular.io/guide/quickstart) version 6.2.2.
 2) The application allows the user to create graph nodes by providing their names.
 The node name can be any alphanumeric string without spaces in it (e.g. ‘A’, ‘A1’, ‘A1B’).
 If the node name is not valid, an error will be shown. 
