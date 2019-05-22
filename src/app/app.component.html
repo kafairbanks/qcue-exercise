@@ -1,10 +1,12 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<!--Bootstrap stylesheet-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" />
 
 <h4 align="center" style="padding-top: 5px;">QCue Take Home Exercise by Katie Fairbanks</h4>
 
+<!-- Display Graph -->
 <div echarts [options]="options" class="demo-chart" [merge]="updateOptions" [loading]="isLoading"></div>
 
+<!-- Create New Node -->
 <div style="padding-left: 2%;">
   <h4>Create New Node:</h4>
   <div class="container">
@@ -22,6 +24,7 @@
   </div>
 </div>
 
+<!-- Create New Edge -->
 <div style="padding-left: 2%;">
   <h4>Create New Edge:</h4>
   <div class="container">
@@ -45,6 +48,7 @@
   </div>
 </div>
 
+<!-- Error Messages -->
 <div *ngIf="!validNodeName" align="center" style="padding: 5px;">
   <ngb-alert [dismissible]="false" [type]="'danger'">
     <strong>That node name is not valid.</strong>

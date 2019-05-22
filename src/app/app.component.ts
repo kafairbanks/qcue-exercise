@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  nodeNameFormat = /^[a-zA-Z0-9]*$/;
+  nodeNameFormat = /^[a-zA-Z0-9]*$/;  // validates node names
   validNodeName = true;
 
   maxX = 400;
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   edges = [];
   updateOptions: any;
 
+  // graph options
   options = {
     tooltip: {},
     animationDurationUpdate: 1500,
@@ -71,11 +72,13 @@ export class AppComponent implements OnInit {
     this.selfLoop = false;
 
     n = n.trim();
-    if (!n) { this.isLoading = false; return; }
+    if (!n) { this.isLoading = false; return; } // checks if input is blank
 
+    // checks node name's validity
     this.validNodeName = this.nodeNameFormat.test(n);
     if (!this.validNodeName) { this.isLoading = false; return; }
 
+    // checks if name is already in use
     for (let i = 0; i < this.nodes.length; i++) {
       if (n === this.nodes[i].name) {
         this.sameName = true;
@@ -84,12 +87,14 @@ export class AppComponent implements OnInit {
       }
     }
 
+    // adds new node with random x,y coordinates
     this.nodes.push({
       name: n,
       x: Math.floor(Math.random() * (this.maxX + 1)),
       y: Math.floor(Math.random() * (this.maxY + 1))
     });
 
+    // updates graph
     this.updateOptions = {
       series: [{
         data: this.nodes
@@ -108,11 +113,12 @@ export class AppComponent implements OnInit {
 
     n1 = n1.trim();
     n2 = n2.trim();
-    if (!n1 || !n2) { this.isLoading = false; return; }
+    if (!n1 || !n2) { this.isLoading = false; return; } // checks if either input is blank
 
     let n1present = false;
     let n2present = false;
 
+    // checks if nodes already exist in the graph
     for (let j = 0; j < this.nodes.length; j++) {
       if (this.nodes[j].name === n1) {
         n1present = true;
@@ -129,6 +135,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    // checks if edge already exists
     for (let i = 0; i < this.edges.length; i++) {
       if (this.edges[i].source === n1 && this.edges[i].target === n2) {
         this.sameEdge = true;
@@ -137,9 +144,10 @@ export class AppComponent implements OnInit {
       }
     }
 
+    // checks if nodes are unique
     if (n1 === n2) {
       this.selfLoop = true;
-    } else {
+    } else { // else adds new edge to graph in both directions (undirected graph)
       this.edges.push({
         source: n1,
         target: n2
@@ -150,6 +158,7 @@ export class AppComponent implements OnInit {
       });
     }
 
+    // updates graph
     this.updateOptions = {
       series: [{
         links: this.edges
