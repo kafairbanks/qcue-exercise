@@ -13,7 +13,7 @@
         <label>New Node Name:</label>
       </div>
       <div class="col-sm-2">
-        <input #nodeName type="text" class="form-control">
+        <input #nodeName type="text" class="form-control" placeholder="e.g. A, A1, A1B">
       </div>
       <div class="col-sm-1">
         <label (click)="addNode(nodeName.value); nodeName.value=''" class="btn-primary" ngbButtonLabel>Add Node</label>
@@ -30,13 +30,13 @@
         <label>Node 1 Name:</label>
       </div>
       <div class="col-sm-2">
-        <input #node1 type="text" class="form-control">
+        <input #node1 type="text" class="form-control" placeholder="e.g. A, A1, A1B">
       </div>
       <div class="col-sm-2">
         <label>Node 2 Name:</label>
       </div>
       <div class="col-sm-2">
-        <input #node2 type="text" class="form-control">
+        <input #node2 type="text" class="form-control" placeholder="e.g. A, A1, A1B">
       </div>
       <div class="col-sm-1">
         <label (click)="addEdge(node1.value, node2.value); node1.value=''; node2.value=''" class="btn-primary" ngbButtonLabel>Add Edge</label>

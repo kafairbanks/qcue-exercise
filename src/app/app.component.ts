@@ -141,7 +141,7 @@ export class AppComponent implements OnInit {
     this.edges.push({
       source: n2,
       target: n1
-    })
+    });
 
     this.updateOptions = {
       series: [{
