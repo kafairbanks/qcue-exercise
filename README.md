@@ -17,6 +17,8 @@ once. If the user tries to do so, an error will be shown.
 
 ## Development server
 
+Run `npm install` to install all of the necessary dependencies.
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Further help
